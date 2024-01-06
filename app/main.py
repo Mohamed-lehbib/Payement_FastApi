@@ -15,6 +15,20 @@ def get_db():
     finally:
         db.close()
 
+@app.post("/create_client", response_model=schemas.ClientBase)
+def create_client(client: schemas.ClientBase, db: Session = Depends(get_db)):
+    # Check if client already exists
+    db_client = db.query(model.Client).filter(model.Client.id_number == client.id_number).first()
+    if db_client:
+        raise HTTPException(status_code=400, detail="Client already exists")
+
+    new_client = model.Client(**client.dict())
+    db.add(new_client)
+    db.commit()
+    db.refresh(new_client)
+    return new_client
+
+
 @app.post("/create_account", response_model=schemas.AccountBase)
 def create_account(account: schemas.AccountBase, db: Session = Depends(get_db)):
     db_account = db.query(model.Account).filter(model.Account.account_number == account.account_number).first()
