@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException, Depends
+from datetime import datetime
 from sqlalchemy.orm import Session
 from . import model, schemas
 from .database import SessionLocal, engine
@@ -66,18 +67,26 @@ def get_card_balance(card_number: str, db: Session = Depends(get_db)):
     return card
 
 @app.post("/make_payment")
-def make_payment(card_number: str, account_number: str, amount: float, db: Session = Depends(get_db)):
+def make_payment(card_number: str, owner: str, cvv: str, expiration_date: str, account_number: str, amount: float, db: Session = Depends(get_db)):
+    # Fetch the card details
     card = db.query(model.Card).filter(model.Card.card_number == card_number).first()
     if not card:
         raise HTTPException(status_code=404, detail="Card not found")
 
+    # Check if the provided owner name, cvv, and expiration date match the card details
+    if card.owner != owner or card.cvv != cvv or card.expiration_date != expiration_date:
+        raise HTTPException(status_code=400, detail="Card details do not match")
+
+    # Fetch the account details
     account = db.query(model.Account).filter(model.Account.account_number == account_number).first()
     if not account:
         raise HTTPException(status_code=404, detail="Account not found")
 
+    # Check for sufficient balance
     if card.balance < amount:
         raise HTTPException(status_code=400, detail="Insufficient balance on card")
 
+    # Proceed with the payment
     card.balance -= amount
     account.balance += amount
     db.commit()

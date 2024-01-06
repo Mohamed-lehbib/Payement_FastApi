@@ -1,5 +1,4 @@
-# models.py
-from sqlalchemy import Column, String, Float, DateTime, ForeignKey
+from sqlalchemy import Column, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
 from .database import Base
 
@@ -26,8 +25,8 @@ class Account(Base):
 class Card(Base):
     __tablename__ = "cards"
 
-    card_number = Column(String, primary_key=True, index=True)
+    card_number = Column(String(16), primary_key=True, index=True)
     owner = Column(String)
-    cvv = Column(String)
-    expiration_date = Column(DateTime)
+    cvv = Column(String(3))
+    expiration_date = Column(String(5))
     balance = Column(Float)
