@@ -35,7 +35,20 @@ uvicorn app.main:app --reload
 # Automating the git commands
 
 creating a bash script that automate this repetitive task [git-automation.sh](git-automation.sh)
+and I need to add execute permission to it
 
 ```
-git-automation.sh "Your commit message" branch
+chmod +x git-automation.sh
+```
+
+and then run it
+
+```
+./git-automation.sh "Commit message" branch
+```
+
+example:
+
+```
+./git-automation.sh "modifying the readme file" main
 ```
