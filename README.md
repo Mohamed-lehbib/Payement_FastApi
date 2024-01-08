@@ -34,12 +34,23 @@ uvicorn app.main:app --reload
 | POST   | http://127.0.0.1:8000/deposit_to_card                  | To deposit an amount to a card                                        |
 
 ## Documentation
+
 To create this api i have done some steps:
+
 - Step 1: I have created a folder
 - Step 2: I have created a python environment
+
 ```
 python3.11 -m venv env
 ```
+
+and I have activated it
+
+```
+source env/bin/activate
+```
+
+- Step 3: I have installed all the packages needed for this project in the `requirements.txt`
 
 # Automating the git commands
 
