@@ -51,7 +51,8 @@ source env/bin/activate
 ```
 
 - Step 3: I have installed all the packages needed for this project in the `requirements.txt`
-
+- Step 4: I have created the `app` folder
+- Step 5: I have created under it the `main` file that contains the api endpoint and logic
 # Automating the git commands
 
 creating a bash script that automate this repetitive task [git-automation.sh](git-automation.sh)
