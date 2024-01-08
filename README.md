@@ -57,9 +57,13 @@ source env/bin/activate
 - Step 7: I have created the `model` file that contains all the models
 - Step 8: I have created the `schemas` file that contains the schemas
 - Step 9: I have run the project
-```
 
 ```
+uvicorn app.main:app --reload
+```
+
+after run this command the server will start and i get the models will be created in the database
+
 # Automating the git commands
 
 creating a bash script that automate this repetitive task [git-automation.sh](git-automation.sh)
