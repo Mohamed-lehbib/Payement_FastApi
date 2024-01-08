@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends
 from datetime import datetime
 from sqlalchemy.orm import Session
+from pydantic import BaseModel
 from . import model, schemas
 from .database import SessionLocal, engine
 
@@ -84,6 +85,14 @@ def deposit_to_card(card_number: str, deposited_amount: float, db: Session = Dep
     db.commit()
 
     return {"message": "Deposit successful", "new_balance": card.balance}
+
+class PaymentData(BaseModel):
+    card_number: str
+    owner: str
+    cvv: str
+    expiration_date: str
+    account_number: str
+    amount: float
 
 @app.post("/make_payment")
 def make_payment(card_number: str, owner: str, cvv: str, expiration_date: str, account_number: str, amount: float, db: Session = Depends(get_db)):
