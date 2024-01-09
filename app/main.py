@@ -95,27 +95,27 @@ class PaymentData(BaseModel):
     amount: float
 
 @app.post("/make_payment")
-def make_payment(card_number: str, owner: str, cvv: str, expiration_date: str, account_number: str, amount: float, db: Session = Depends(get_db)):
+def make_payment(payment_data: PaymentData, db: Session = Depends(get_db)):
     # Fetch the card details
-    card = db.query(model.Card).filter(model.Card.card_number == card_number).first()
+    card = db.query(model.Card).filter(model.Card.card_number == payment_data.card_number).first()
     if not card:
         raise HTTPException(status_code=404, detail="Card not found")
 
     # Check if the provided owner name, cvv, and expiration date match the card details
-    if card.owner != owner or card.cvv != cvv or card.expiration_date != expiration_date:
+    if card.owner != payment_data.owner or card.cvv != payment_data.cvv or card.expiration_date != payment_data.expiration_date:
         raise HTTPException(status_code=400, detail="Card details do not match")
 
     # Fetch the account details
-    account = db.query(model.Account).filter(model.Account.account_number == account_number).first()
+    account = db.query(model.Account).filter(model.Account.account_number == payment_data.account_number).first()
     if not account:
         raise HTTPException(status_code=404, detail="Account not found")
 
     # Check for sufficient balance
-    if card.balance < amount:
+    if card.balance < payment_data.amount:
         raise HTTPException(status_code=400, detail="Insufficient balance on card")
 
     # Proceed with the payment
-    card.balance -= amount
-    account.balance += amount
+    card.balance -= payment_data.amount
+    account.balance += payment_data.amount
     db.commit()
     return {"message": "Payment successful"}
