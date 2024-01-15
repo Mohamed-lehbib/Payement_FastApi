@@ -37,7 +37,7 @@ pip install mysql-connector-python
 
 4. Check the [database.py](app/database.py) the database url if it matches yours
 
-### note: If u are using **MySQL** u need to change the url of the database connection
+#### note: If u are using **MySQL** u need to change the url of the database connection
 
 ```
 DATABASE_URL = "mysql+mysqlconnector://username:password@host:port/database_name"
