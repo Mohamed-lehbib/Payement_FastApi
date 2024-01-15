@@ -4,22 +4,54 @@ A Simulation of a payement gateway
 
 ## How to use this api ?
 
-1. Install the requirements
+1. First u need to create a virtual environment
+
+```
+python -m venv env
+```
+
+2. Then u need to activate the environment
+   Windows:
+
+```
+.\env\Scripts\activate
+```
+
+mac:
+
+```
+source env/bin/activate
+```
+
+3. Install the requirements
 
 ```
 pip install -r requirements.txt
 ```
 
-2. Check the [database.py](app/database.py) the database url if it matches yours
-3. Run the server
+If u are using **MySQL** u need to install `mysql-connector`
+
+```
+pip install mysql-connector-python
+```
+
+4. Check the [database.py](app/database.py) the database url if it matches yours
+
+### note: If u are using **MySQL** u need to change the url of the database connection
+
+```
+DATABASE_URL = "mysql+mysqlconnector://username:password@host:port/database_name"
+```
+
+5. Run the server
 
 ```
 uvicorn app.main:app --reload
 ```
 
-4. Navigate To the Swagger interface to see all the endpoint that this api offer and what is the format required ([click here](http://127.0.0.1:8000/docs#/) )
-5. Make requests using curl or any other tool that can make http request like Postman,
-6. Enjoy now u have an api that u can use just integrate it wherever u want
+6. Navigate To the Swagger interface to see all the endpoint that this api offer and what is the format required ([click here](http://127.0.0.1:8000/docs#/) )
+7. Make requests using curl or any other tool that can make http request like Postman,
+8. Enjoy now u have an api that u can use just integrate it wherever u want
 
 ## Endpoints affored by this api
 
